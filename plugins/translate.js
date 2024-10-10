@@ -1,1 +1,32 @@
-const _0x3bdf70=_0x3011;(function(_0x502ee6,_0x554964){const _0x3f0e63=_0x3011,_0x1b9c98=_0x502ee6();while(!![]){try{const _0x541970=-parseInt(_0x3f0e63(0x17a))/0x1*(parseInt(_0x3f0e63(0x16d))/0x2)+-parseInt(_0x3f0e63(0x172))/0x3+-parseInt(_0x3f0e63(0x176))/0x4+-parseInt(_0x3f0e63(0x17e))/0x5+-parseInt(_0x3f0e63(0x169))/0x6+parseInt(_0x3f0e63(0x170))/0x7+-parseInt(_0x3f0e63(0x168))/0x8*(-parseInt(_0x3f0e63(0x173))/0x9);if(_0x541970===_0x554964)break;else _0x1b9c98['push'](_0x1b9c98['shift']());}catch(_0x5ae1b2){_0x1b9c98['push'](_0x1b9c98['shift']());}}}(_0x1991,0x5dfa1));const axios=require('axios'),{cmd}=require(_0x3bdf70(0x16c));cmd({'pattern':'trt','desc':'🌍\x20Translate\x20text\x20between\x20languages','react':'🌐','category':_0x3bdf70(0x17d),'filename':__filename},async(_0x2facf7,_0x2273da,_0x3b7b11,{from:_0x27bd04,q:_0x2a81fd,reply:_0x39e75c})=>{const _0x352ba0=_0x3bdf70;try{const _0x1b8ff8=_0x2a81fd[_0x352ba0(0x16f)]('\x20');if(_0x1b8ff8[_0x352ba0(0x171)]<0x2)return _0x39e75c('❗\x20Please\x20provide\x20a\x20language\x20code\x20and\x20text.\x20Usage:\x20.translate\x20[language\x20code]\x20[text]');const _0x3e8cfe=_0x1b8ff8[0x0],_0x11c520=_0x1b8ff8['slice'](0x1)[_0x352ba0(0x17c)]('\x20'),_0x4dc455=_0x352ba0(0x178)+encodeURIComponent(_0x11c520)+_0x352ba0(0x16e)+_0x3e8cfe,_0x5b51f0=await axios[_0x352ba0(0x17b)](_0x4dc455),_0x14c50e=_0x5b51f0[_0x352ba0(0x16b)][_0x352ba0(0x16a)][_0x352ba0(0x175)],_0x52a7c1='\x0a🌍\x20*Translation*\x20🌍\x0a\x0a🔤\x20*Original*:\x20'+_0x11c520+'\x0a🔠\x20*Translated*:\x20'+_0x14c50e+_0x352ba0(0x174)+_0x3e8cfe[_0x352ba0(0x179)]()+'\x0a\x0a>\x20QUEEN\x20ANJU-MD';return _0x39e75c(_0x52a7c1);}catch(_0x209997){return console[_0x352ba0(0x177)](_0x209997),_0x39e75c('⚠️\x20An\x20error\x20occurred\x20while\x20translating\x20the\x20text.\x20Please\x20try\x20again\x20later.');}});function _0x3011(_0x3bdace,_0x3fc895){const _0x199127=_0x1991();return _0x3011=function(_0x301139,_0x80af0c){_0x301139=_0x301139-0x168;let _0x25d608=_0x199127[_0x301139];return _0x25d608;},_0x3011(_0x3bdace,_0x3fc895);}function _0x1991(){const _0x42a8de=['length','2141832hYERTQ','36IOiAaf','\x0a🌐\x20*Language*:\x20','translatedText','486308mFFisp','log','https://api.mymemory.translated.net/get?q=','toUpperCase','166YWJhbW','get','join','other','2642370yonNqL','5580824TTNtLJ','4515546CWOWng','responseData','data','../command','6592ofGcwr','&langpair=en|','split','1807673taaPew'];_0x1991=function(){return _0x42a8de;};return _0x1991();}
+import translate from '@vitalets/google-translate-api'
+const defaultLang = 'en'
+const tld = 'cn'
+
+let handler = async (m, { args, usedPrefix, command }) => {
+    let err = `
+📌 *مثال:*
+
+*${usedPrefix + command}* ar hi
+`.trim()
+
+    let lang = args[0]
+    let text = args.slice(1).join(' ')
+    if ((args[0] || '').length !== 2) {
+        lang = defaultLang
+        text = args.join(' ')
+    }
+    if (!text && m.quoted && m.quoted.text) text = m.quoted.text
+
+    try {
+       let result = await translate(text, { to: lang, autoCorrect: true }).catch(_ => null) 
+       m.reply(result.text)
+    } catch (e) {
+        throw err
+    } 
+
+}
+handler.help = ['trad <leng> <text>']
+handler.tags = ['tools']
+handler.command = ['ترجمه', 'ترجمة', 'ترجم', 'tr']
+
+export default handler
